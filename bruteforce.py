@@ -1,33 +1,28 @@
-actions = [
-    {"name": "Action-1", "cost": 20, "profit": 5},  # Profit in % ( 2 years )
-    {"name": "Action-2", "cost": 30, "profit": 10},
-    {"name": "Action-3", "cost": 50, "profit": 15},
-    {"name": "Action-4", "cost": 70, "profit": 20},
-    {"name": "Action-5", "cost": 60, "profit": 17},
-    {"name": "Action-6", "cost": 80, "profit": 25},
-    {"name": "Action-7", "cost": 22, "profit": 7},
-    {"name": "Action-8", "cost": 26, "profit": 11},
-    {"name": "Action-9", "cost": 48, "profit": 13},
-    {"name": "Action-10", "cost": 34, "profit": 27},
-    {"name": "Action-11", "cost": 42, "profit": 17},
-    {"name": "Action-12", "cost": 110, "profit": 9},
-    {"name": "Action-13", "cost": 38, "profit": 23},
-    {"name": "Action-14", "cost": 14, "profit": 1},
-    {"name": "Action-15", "cost": 18, "profit": 3},
-    {"name": "Action-16", "cost": 8, "profit": 8},
-    {"name": "Action-17", "cost": 4, "profit": 12},
-    {"name": "Action-18", "cost": 10, "profit": 14},
-    {"name": "Action-19", "cost": 24, "profit": 21},
-    {"name": "Action-20", "cost": 114, "profit": 18},
-]
+#KnapSack algo
+import pandas as pd
 
-print(f'Actions sans real profit {actions}')
+file_path = './datas/brute_force_actions.csv'
+data = pd.read_csv(file_path, sep=';')   # Lire le fichier CSV
+actions = []    # Tableau vide qui contiendra l'ensemble des actions
+
+# Récupérer le contenu des colonnes 'name'
+name_field = data['name']
+price_field = data['price']
+profit_field = data['profit']
+
+actions_size = len(name_field)
+for i in range(0, actions_size):
+    actions.append({"name": name_field.get(i), "cost": int(price_field.get(i)), "profit": int(profit_field.get(i))}
+)
+
+print('\nTable of Actions :')
+print(f'{actions}\n')
 
 # Calculer le bénéfice réel pour chaque action
 for action in actions:
     action['real_profit'] = action['cost'] * (action['profit'] / 100)
 
-print(f'Actions avec real profit {actions}')
+print(f'Actions avec real profit {actions}\n')
 
 # Initialiser les variables
 max_budget = 500
@@ -37,7 +32,7 @@ len_actions = len(actions)
 # dp = Tableau 2D : [[x, x], [x, x]]
 # (len_actions + 1) lignes et (max_budget + 1) colonnes.
 dp = [[0 for i in range(max_budget + 1)] for j in range(len_actions + 1)]
-print(f'Empty dp {dp}')
+print(f'Empty dp {dp}\n')
 
 # Algorithme de sac à dos
 for i in range(1, len_actions + 1):     # boucle sur la taille des actions
