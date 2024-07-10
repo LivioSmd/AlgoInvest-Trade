@@ -1,32 +1,16 @@
 #KnapSack algo
-import pandas as pd
+import Tools
 
+max_budget = 500
 file_path = './datas/brute_force_actions.csv'
-data = pd.read_csv(file_path, sep=';')   # Lire le fichier CSV
-actions = []    # Tableau vide qui contiendra l'ensemble des actions
-
-# Récupérer le contenu des colonnes 'name'
-name_field = data['name']
-price_field = data['price']
-profit_field = data['profit']
-
-actions_size = len(name_field)
-for i in range(0, actions_size):
-    actions.append({"name": name_field.get(i), "cost": int(price_field.get(i)), "profit": int(profit_field.get(i))}
-)
-
-print('\nTable of Actions :')
-print(f'{actions}\n')
+actions = Tools.getAction(file_path)
+len_actions = len(actions)
 
 # Calculer le bénéfice réel pour chaque action
 for action in actions:
     action['real_profit'] = action['cost'] * (action['profit'] / 100)
 
 print(f'Actions avec real profit {actions}\n')
-
-# Initialiser les variables
-max_budget = 500
-len_actions = len(actions)
 
 # Initialiser le tableau pour la programmation dynamique avec des valeurs à 0 par default
 # dp = Tableau 2D : [[x, x], [x, x]]
@@ -51,24 +35,9 @@ for i in range(len_actions, 0, -1):  # Parcourt les actions en ordre inverse pou
 
 selected_actions.reverse()  # Pour avoir les actions dans l'ordre initial
 
-# Afficher les résultats
-total_cost = sum(action['cost'] for action in selected_actions)
-total_profit = sum(action['real_profit'] for action in selected_actions)
-result = {
-    "actions": selected_actions,
-    "total_cost": total_cost,
-    "total_profit": total_profit
-}
+Tools.displayResults(selected_actions)  # Afficher les resultats
 
-for action in result['actions']:
-    print(
-        f' Action : {action['name']}\n'
-        f' Price : {action['cost']}\n'
-        f' Profit : {action['profit']}\n'
-        f' Real profit : {action['real_profit']}\n'
-    )
-
-print(
-    f' Total Cost : {result['total_cost']}\n'
-    f' Total Real Profit : {result['total_profit']}\n'
-)
+#   résolution : programmation dynamique (celui la), précis
+#   résolution : algo glouton (aller voir), solution approchée
+#   Tester les fichiers
+#   Verifier les données qui n'ont pas de sens
