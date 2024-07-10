@@ -2,8 +2,9 @@
 import Tools
 
 max_budget = 500
-file_path = './datas/brute_force_actions.csv'
-actions = Tools.getAction(file_path)
+file_path = './datas/dataset2_Python.csv'
+separator = ','
+actions = Tools.getAction(file_path, separator)
 len_actions = len(actions)
 
 # Calculer le bénéfice réel pour chaque action
@@ -16,12 +17,11 @@ print(f'Actions avec real profit {actions}\n')
 # dp = Tableau 2D : [[x, x], [x, x]]
 # (len_actions + 1) lignes et (max_budget + 1) colonnes.
 dp = [[0 for i in range(max_budget + 1)] for j in range(len_actions + 1)]
-print(f'Empty dp {dp}\n')
 
 # Algorithme de sac à dos
 for i in range(1, len_actions + 1):     # boucle sur la taille des actions
     for budget in range(max_budget + 1):     # boucle sur toutes les valeurs possible de max_budget ( ici 0 - 500 )
-        if actions[i - 1]['cost'] <= budget:     # vérifie que le coût de l'action actuelle est inférieur ou egal au budget
+        if 0 < actions[i - 1]['cost'] <= budget:     # vérifie que le coût de l'action actuelle supérieur à 0 et est inférieur ou egal au budget
             dp[i][budget] = max(dp[i - 1][budget], dp[i - 1][budget - actions[i - 1]['cost']] + actions[i - 1]['real_profit'])  # on compare : le max du (profit maximum réalisable sans prendre l'action & profit maximum réalisable en prenant l'action)
         else:
             dp[i][budget] = dp[i - 1][budget]
