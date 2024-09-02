@@ -2,13 +2,13 @@
 import itertools
 import Tools
 
-max_budget = 50000
+max_budget = 500
 file_path = './datas/brute_force_actions.csv'
-
 separator = ";"
+
 actions = Tools.getAction(file_path, separator)
 for action in actions:
-    action['real_profit'] = action['cost'] * (action['profit'] / 10000)
+    action['real_profit'] = action['cost'] * (action['profit'] / 100)
 
 # Generate all possible combinations and find the best one
 best_combination = []
